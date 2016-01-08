@@ -8,10 +8,10 @@
 
 import UIKit
 
-class MasterViewController: UITableViewController {
+class MasterViewController: UITableViewController, TaskChangedDelegate {
 
     var detailViewController: DetailViewController? = nil
-    var objects = NSMutableArray()
+    var objects: [Task] = []
 
 
     override func awakeFromNib() {
@@ -31,7 +31,7 @@ class MasterViewController: UITableViewController {
         self.navigationItem.rightBarButtonItem = addButton
         if let split = self.splitViewController {
             let controllers = split.viewControllers
-            self.detailViewController = controllers[controllers.count-1].topViewController as? DetailViewController
+            self.detailViewController = (controllers[controllers.count-1] as! UINavigationController).topViewController as? DetailViewController
         }
     }
 
@@ -41,7 +41,8 @@ class MasterViewController: UITableViewController {
     }
 
     func insertNewObject(sender: AnyObject) {
-        objects.insertObject(NSDate(), atIndex: 0)
+        let newTask = Task(arg:("New Task", status: true, deadline: NSDate()))
+        objects.insert(newTask, atIndex: 0)
         let indexPath = NSIndexPath(forRow: 0, inSection: 0)
         self.tableView.insertRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
     }
@@ -50,10 +51,12 @@ class MasterViewController: UITableViewController {
 
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if segue.identifier == "showDetail" {
-            if let indexPath = self.tableView.indexPathForSelectedRow() {
-                let object = objects[indexPath.row] as NSDate
-                let controller = (segue.destinationViewController as UINavigationController).topViewController as DetailViewController
+            if let indexPath = self.tableView.indexPathForSelectedRow {
+                let object = objects[indexPath.row]
+                let controller = (segue.destinationViewController as! UINavigationController).topViewController as! DetailViewController
                 controller.detailItem = object
+                controller.index = indexPath.row
+                controller.delegate = self
                 controller.navigationItem.leftBarButtonItem = self.splitViewController?.displayModeButtonItem()
                 controller.navigationItem.leftItemsSupplementBackButton = true
             }
@@ -73,8 +76,8 @@ class MasterViewController: UITableViewController {
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("Cell", forIndexPath: indexPath) as UITableViewCell
 
-        let object = objects[indexPath.row] as NSDate
-        cell.textLabel!.text = object.description
+        let object = objects[indexPath.row]
+        cell.textLabel!.text = object.taskName
         return cell
     }
 
@@ -85,13 +88,27 @@ class MasterViewController: UITableViewController {
 
     override func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
         if editingStyle == .Delete {
-            objects.removeObjectAtIndex(indexPath.row)
+            objects.removeAtIndex(indexPath.row)
             tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Fade)
         } else if editingStyle == .Insert {
             // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view.
         }
     }
+    
+    func taskChanged(task: Task, index:Int) {
+        
+        print("Masterview taskChanged")
+        self.objects[index] = task
+        
+        self.tableView.reloadRowsAtIndexPaths([NSIndexPath(forRow: index, inSection: 0)], withRowAnimation: UITableViewRowAnimation.Automatic)
+    }
 
 
 }
+
+protocol TaskChangedDelegate {
+    func taskChanged(task: Task, index: Int)
+}
+
+
 

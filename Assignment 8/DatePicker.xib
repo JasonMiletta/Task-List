@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6254" systemVersion="14B25" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6247"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="ChangeDeadlineViewController" customModule="Assignment_8" customModuleProvider="target">
+            <connections>
+                <outlet property="datePicker" destination="bMj-vB-JrV" id="2Sh-2W-gfq"/>
+                <outlet property="view" destination="iN0-l3-epB" id="bN5-Hd-5ER"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB">
+            <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <datePicker contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="date" minuteInterval="1" translatesAutoresizingMaskIntoConstraints="NO" id="bMj-vB-JrV">
+                    <rect key="frame" x="10" y="10" width="580" height="162"/>
+                    <date key="date" timeIntervalSinceReferenceDate="449622351.48736697">
+                        <!--2015-04-01 23:05:51 +0000-->
+                    </date>
+                </datePicker>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Mvo-M4-zwN">
+                    <rect key="frame" x="282" y="182" width="37" height="30"/>
+                    <state key="normal" title="Done">
+                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                    </state>
+                    <connections>
+                        <action selector="done:" destination="-1" eventType="touchUpInside" id="iuY-RZ-iGA"/>
+                    </connections>
+                </button>
+            </subviews>
+            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+            <constraints>
+                <constraint firstItem="bMj-vB-JrV" firstAttribute="centerX" secondItem="Mvo-M4-zwN" secondAttribute="centerX" id="9YR-Cw-W2U"/>
+                <constraint firstItem="bMj-vB-JrV" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="10" id="W2j-hd-T70"/>
+                <constraint firstItem="Mvo-M4-zwN" firstAttribute="top" secondItem="bMj-vB-JrV" secondAttribute="bottom" constant="10" id="dTf-Jx-mC3"/>
+                <constraint firstAttribute="trailing" secondItem="bMj-vB-JrV" secondAttribute="trailing" constant="10" id="mBb-B0-dcn"/>
+                <constraint firstItem="bMj-vB-JrV" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="10" id="tjO-oR-tQ6"/>
+            </constraints>
+            <connections>
+                <outletCollection property="gestureRecognizers" destination="ccJ-P1-53x" appends="YES" id="Lp9-y2-ge3"/>
+            </connections>
+            <point key="canvasLocation" x="311" y="436"/>
+        </view>
+        <tapGestureRecognizer id="ccJ-P1-53x">
+            <connections>
+                <action selector="tap:" destination="-1" id="rhF-9W-jDP"/>
+            </connections>
+        </tapGestureRecognizer>
+    </objects>
+</document>
